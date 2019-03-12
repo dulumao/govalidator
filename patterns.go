@@ -110,6 +110,7 @@ var (
 	urlEncoded          = regexp.MustCompile(UrlEncoded)
 	username            = regexp.MustCompile(Username)
 	password            = regexp.MustCompile(Password)
+	rxHasLowerCase      = regexp.MustCompile(hasLowerCase)
 	rxHasUpperCase      = regexp.MustCompile(hasUpperCase)
 	rxHasWhitespace     = regexp.MustCompile(hasWhitespace)
 	rxHasWhitespaceOnly = regexp.MustCompile(hasWhitespaceOnly)
