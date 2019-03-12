@@ -146,6 +146,14 @@ var TagMap = map[string]Validator{
 	"ISO3166Alpha2":      IsISO3166Alpha2,
 	"ISO3166Alpha3":      IsISO3166Alpha3,
 	"ISO4217":            IsISO4217,
+	"bitcoinaddress":     IsBitcoinAdress,
+	"ethereumaddress":    IsEthereumAddress,
+	"html":               IsHtml,
+	"htmlencoded":        IsHtmlEncoded,
+	"urlencoded":         IsUrlEncoded,
+	"username":           IsUsername,
+	"password":           IsPassword,
+	"boolean":            IsBoolean,
 }
 
 // ISO3166Entry stores country codes
@@ -157,7 +165,7 @@ type ISO3166Entry struct {
 	Numeric          string
 }
 
-//ISO3166List based on https://www.iso.org/obp/ui/#search/code/ Code Type "Officially Assigned Codes"
+// ISO3166List based on https://www.iso.org/obp/ui/#search/code/ Code Type "Officially Assigned Codes"
 var ISO3166List = []ISO3166Entry{
 	{"Afghanistan", "Afghanistan (l')", "AF", "AFG", "004"},
 	{"Albania", "Albanie (l')", "AL", "ALB", "008"},
@@ -447,7 +455,7 @@ type ISO693Entry struct {
 	English     string
 }
 
-//ISO693List based on http://data.okfn.org/data/core/language-codes/r/language-codes-3b2.json
+// ISO693List based on http://data.okfn.org/data/core/language-codes/r/language-codes-3b2.json
 var ISO693List = []ISO693Entry{
 	{Alpha3bCode: "aar", Alpha2Code: "aa", English: "Afar"},
 	{Alpha3bCode: "abk", Alpha2Code: "ab", English: "Abkhazian"},

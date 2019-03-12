@@ -130,10 +130,10 @@ func IsURL(str string) bool {
 func IsRequestURL(rawurl string) bool {
 	url, err := url.ParseRequestURI(rawurl)
 	if err != nil {
-		return false //Couldn't even parse the rawurl
+		return false // Couldn't even parse the rawurl
 	}
 	if len(url.Scheme) == 0 {
-		return false //No Scheme found
+		return false // No Scheme found
 	}
 	return true
 }
@@ -154,8 +154,8 @@ func IsAlpha(str string) bool {
 	return rxAlpha.MatchString(str)
 }
 
-//IsUTFLetter check if the string contains only unicode letter characters.
-//Similar to IsAlpha but for all languages. Empty string is valid.
+// IsUTFLetter check if the string contains only unicode letter characters.
+// Similar to IsAlpha but for all languages. Empty string is valid.
 func IsUTFLetter(str string) bool {
 	if IsNull(str) {
 		return true
@@ -184,7 +184,7 @@ func IsUTFLetterNumeric(str string) bool {
 		return true
 	}
 	for _, c := range str {
-		if !unicode.IsLetter(c) && !unicode.IsNumber(c) { //letters && numbers are ok
+		if !unicode.IsLetter(c) && !unicode.IsNumber(c) { // letters && numbers are ok
 			return false
 		}
 	}
@@ -214,7 +214,7 @@ func IsUTFNumeric(str string) bool {
 		str = strings.TrimPrefix(str, "+")
 	}
 	for _, c := range str {
-		if !unicode.IsNumber(c) { //numbers && minus sign are ok
+		if !unicode.IsNumber(c) { // numbers && minus sign are ok
 			return false
 		}
 	}
@@ -235,7 +235,7 @@ func IsUTFDigit(str string) bool {
 		str = strings.TrimPrefix(str, "+")
 	}
 	for _, c := range str {
-		if !unicode.IsDigit(c) { //digits && minus sign are ok
+		if !unicode.IsDigit(c) { // digits && minus sign are ok
 			return false
 		}
 	}
@@ -323,12 +323,12 @@ func IsNull(str string) bool {
 
 // HasWhitespaceOnly checks the string only contains whitespace
 func HasWhitespaceOnly(str string) bool {
-    return len(str) > 0 && rxHasWhitespaceOnly.MatchString(str)
+	return len(str) > 0 && rxHasWhitespaceOnly.MatchString(str)
 }
 
 // HasWhitespace checks if the string contains any whitespace
 func HasWhitespace(str string) bool {
-    return len(str) > 0 && rxHasWhitespace.MatchString(str)
+	return len(str) > 0 && rxHasWhitespace.MatchString(str)
 }
 
 // IsByteLength check if the string's length (in bytes) falls in a range.
@@ -425,7 +425,7 @@ func IsISBN(str string, version int) bool {
 		for i = 0; i < 12; i++ {
 			checksum += factor[i%2] * int32(sanitized[i]-'0')
 		}
-		return (int32(sanitized[12]-'0'))-((10-(checksum%10))%10) == 0
+		return (int32(sanitized[12] - '0'))-((10-(checksum%10))%10) == 0
 	}
 	return IsISBN(str, 10) || IsISBN(str, 13)
 }
@@ -492,7 +492,7 @@ func IsBase64(str string) bool {
 // IsFilePath check is a string is Win or Unix file path and returns it's type.
 func IsFilePath(str string) (bool, int) {
 	if rxWinPath.MatchString(str) {
-		//check windows path limit see:
+		// check windows path limit see:
 		//  http://msdn.microsoft.com/en-us/library/aa365247(VS.85).aspx#maxpath
 		if len(str[3:]) > 32767 {
 			return false, Win
@@ -695,6 +695,56 @@ func IsRsaPublicKey(str string, keylen int) bool {
 	}
 	bitlen := len(pubkey.N.Bytes()) * 8
 	return bitlen == int(keylen)
+}
+
+func IsBitcoinAdress(str string) bool {
+	return bitcoinAddress.MatchString(str)
+}
+
+func IsEthereumAddress(str string) bool {
+	return ethereumAddress.MatchString(str)
+}
+
+func IsHtml(str string) bool {
+	return html.MatchString(str)
+}
+
+func IsHtmlEncoded(str string) bool {
+	return htmlEncoded.MatchString(str)
+}
+
+func IsUrlEncoded(str string) bool {
+	return urlEncoded.MatchString(str)
+}
+
+func IsUsername(str string) bool {
+	return username.MatchString(str)
+}
+
+func IsPassword(str string) bool {
+	return password.MatchString(str)
+}
+
+func IsBoolean(str string) bool {
+	var boolMap = map[string]bool{
+		// true
+		"1":    true,
+		"true": true,
+		"on":   true,
+		"yes":  true,
+		// false
+		"":      false,
+		"0":     false,
+		"false": false,
+		"off":   false,
+		"no":    false,
+	}
+
+	if state, ok := boolMap[strings.ToLower(str)]; ok {
+		return state
+	}
+
+	return false
 }
 
 func toJSONName(tag string) string {
@@ -1121,10 +1171,10 @@ func typeCheck(v reflect.Value, t reflect.StructField, o reflect.Value, options 
 				delete(options, validatorSpec)
 
 				switch v.Kind() {
-                case reflect.String,
-                    reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-                    reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
-                    reflect.Float32, reflect.Float64:
+				case reflect.String,
+					reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+					reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+					reflect.Float32, reflect.Float64:
 					field := fmt.Sprint(v) // make value into string, then validate with regex
 					if result := validatefunc(field); !result && !negate || result && negate {
 						if customMsgExists {
@@ -1136,7 +1186,7 @@ func typeCheck(v reflect.Value, t reflect.StructField, o reflect.Value, options 
 						return false, Error{t.Name, fmt.Errorf("%s does not validate as %s", field, validator), customMsgExists, stripParams(validatorSpec), []string{}}
 					}
 				default:
-					//Not Yet Supported Types (Fail here!)
+					// Not Yet Supported Types (Fail here!)
 					err := fmt.Errorf("Validator %s doesn't support kind %s for value %v", validator, v.Kind(), v)
 					return false, Error{t.Name, err, false, stripParams(validatorSpec), []string{}}
 				}
