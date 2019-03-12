@@ -705,8 +705,8 @@ func IsEthereumAddress(str string) bool {
 	return ethereumAddress.MatchString(str)
 }
 
-func IsHtml(str string) bool {
-	return html.MatchString(str)
+func IsHtmlCode(str string) bool {
+	return htmlCode.MatchString(str)
 }
 
 func IsHtmlEncoded(str string) bool {
@@ -744,6 +744,13 @@ func IsBoolean(str string) bool {
 		return state
 	}
 
+	return false
+}
+
+func IsUnixTime(str string) bool {
+	if _, err := strconv.Atoi(str); err == nil {
+		return true
+	}
 	return false
 }
 
@@ -956,6 +963,29 @@ func IsRsaPub(str string, params ...string) bool {
 	if len(params) == 1 {
 		len, _ := ToInt(params[0])
 		return IsRsaPublicKey(str, int(len))
+	}
+
+	return false
+}
+
+func MinStringLength(str string, params ...string) bool {
+
+	if len(params) == 1 {
+		strLength := utf8.RuneCountInString(str)
+		min, _ := ToInt(params[0])
+		return strLength >= int(min)
+	}
+
+	return false
+}
+
+// MaxStringLength check string's maximum length (including multi byte strings)
+func MaxStringLength(str string, params ...string) bool {
+
+	if len(params) == 1 {
+		strLength := utf8.RuneCountInString(str)
+		max, _ := ToInt(params[0])
+		return strLength <= int(max)
 	}
 
 	return false

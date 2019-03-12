@@ -46,7 +46,7 @@ const (
 	// BitcoinAddressUpper    string = `^BC1[02-9AC-HJ-NP-Z]{7,76}$` // bitcoin bech32 address https://en.bitcoin.it/wiki/Bech32
 	// BitcoinAddressLower    string = `^bc1[02-9ac-hj-np-z]{7,76}$` // bitcoin bech32 address https://en.bitcoin.it/wiki/Bech32
 	EthereumAddress   string = "^0x[0-9a-fA-F]{40}$"
-	Html              string = "<[/]?([a-zA-Z]+).*?>"
+	HtmlCode          string = "<[/]?([a-zA-Z]+).*?>"
 	HtmlEncoded       string = "&#[x]?([0-9a-fA-F]{2})|(&gt)|(&lt)|(&quot)|(&amp)+[;]?"
 	UrlEncoded        string = "(%[A-Fa-f0-9]{2})"
 	Username          string = `^[a-zA-Z]{1}\w{5,17}$`
@@ -105,7 +105,7 @@ var (
 	rxSemver            = regexp.MustCompile(Semver)
 	bitcoinAddress      = regexp.MustCompile(BitcoinAddress)
 	ethereumAddress     = regexp.MustCompile(EthereumAddress)
-	html                = regexp.MustCompile(Html)
+	htmlCode            = regexp.MustCompile(HtmlCode)
 	htmlEncoded         = regexp.MustCompile(HtmlEncoded)
 	urlEncoded          = regexp.MustCompile(UrlEncoded)
 	username            = regexp.MustCompile(Username)
